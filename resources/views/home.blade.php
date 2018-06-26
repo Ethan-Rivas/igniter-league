@@ -106,34 +106,98 @@
 
                           <?php
                             use App\Http\Controllers\HomeController;
+                            use DataDragonAPI\DataDragonAPI;
+
                             $a = new HomeController;
+
+                            DataDragonAPI::initByCdn();
 
                             if (isset($_GET['matches'])) {
 
                               if(!empty($session_matches) and isset($_GET['reload'])) {
                                 $session_matches = session()->put('matches', $a->getMatches($api, $data->summoner_id));
                                 $matches = $session_matches;
-                                $loaded_matches = 1;
                               } elseif(!empty($session_matches)) {
                                 $matches = $session_matches;
-                                $loaded_matches = 1;
                               } else {
                                 $session_matches = session()->put('matches', $a->getMatches($api, $data->summoner_id));
                                 $matches = $session_matches;
-                                $loaded_matches = 1;
                               }
 
                               if (is_array($matches) || is_object($matches)) {
                                 foreach ($matches as $match) {
+
+                                  $participantId = 0;
+                                  $participantStats = [];
+                                  $championId = 0;
+
+                                  foreach($match->participantIdentities as $identity) {
+                                    if($identity->player->summonerName == $data->summoner_name) {
+                                      $participantId = $identity->participantId;
+                                    }
+                                  }
+
+                                  foreach($match->participants as $participant) {
+                                    if($participantId == $participant->participantId) {
+                                      $participantStats = $participant->stats;
+                                      $championId = $participant->championId;
+                                    }
+                                  }
+
+                                  $champion_name = $api->getChampionById($championId)->name;
+                                  $championUrl = preg_replace('/\s/', '', DataDragonAPI::getChampionIconUrl($champion_name));
+                                  $kda = number_format((($participantStats->kills+$participantStats->assists)/$participantStats->deaths), 2);
+
+                                  // Show formatted list of matches
                                   if($match->teams[0]->win == "Win") {
                                     echo "<div class='win-container'>
-                                            <span>VICTORY</span><br>
-                                            <span class='game-mode'>$match->gameMode</span>
+                                            <div class='row'>
+                                              <!-- Champion Image -->
+                                              <div class='col-md-2'>
+                                                <div>
+                                                  <img style='width: 100%;' src='$championUrl' alt='$champion_name' />
+                                                </div>
+                                              </div>
+
+                                              <!-- Game Information -->
+                                              <div class='col-md-2'>
+                                                <div>
+                                                  <span style='font-weight: bold; color: #7FC787'>VICTORY</span><br>
+                                                  <span class='game-mode'>$match->gameMode</span>
+                                                </div>
+                                              </div>
+
+                                              <!-- Summoner Performance -->
+                                              <div class='col-md-8'>
+                                                $participantStats->kills/$participantStats->deaths/$participantStats->assists <br />
+                                                <span style='font-weight: bold;'>$kda</span> KDA
+                                              </div>
+                                            </div>
                                           </div>";
                                   } else {
                                     echo "<div class='lose-container'>
-                                            <span>DEFEAT</span><br>
-                                            <span class='game-mode'>$match->gameMode</span>
+                                            <div class='row'>
+                                              <!-- Champion Image -->
+                                              <div class='col-md-2'>
+                                                <div>
+                                                  <img style='width: 100%;' src='$championUrl' alt='$champion_name' />
+                                                </div>
+                                              </div>
+
+                                              <!-- Game Information -->
+                                              <div class='col-md-2'>
+                                                <div>
+                                                  <span style='font-weight: bold; color: #FF7F7F;'>DEFEAT</span><br>
+                                                  <span class='game-mode'>$match->gameMode</span>
+                                                </div>
+                                              </div>
+
+                                              <!-- Summoner Performance -->
+                                              <div class='col-md-8'>
+                                                $participantStats->kills/$participantStats->deaths/$participantStats->assists <br />
+                                                <span style='font-weight: bold;'>$kda</span> KDA
+                                              </div>
+                                            </div>
                                           </div>";
                                   }
                                 }
