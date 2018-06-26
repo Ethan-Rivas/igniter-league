@@ -148,6 +148,14 @@
                                   $championUrl = preg_replace('/\s/', '', DataDragonAPI::getChampionIconUrl($champion_name));
                                   $kda = number_format((($participantStats->kills+$participantStats->assists)/$participantStats->deaths), 2);
 
+                                  $items = array(0 => DataDragonAPI::getItemIcon($participantStats->item0),
+                                                 1 => DataDragonAPI::getItemIcon($participantStats->item1),
+                                                 2 => DataDragonAPI::getItemIcon($participantStats->item2),
+                                                 3 => DataDragonAPI::getItemIcon($participantStats->item3),
+                                                 4 => DataDragonAPI::getItemIcon($participantStats->item4),
+                                                 5 => DataDragonAPI::getItemIcon($participantStats->item5),
+                                                 6 => DataDragonAPI::getItemIcon($participantStats->item6));
+
                                   // Show formatted list of matches
                                   if($match->teams[0]->win == "Win") {
                                     echo "<div class='win-container'>
@@ -169,8 +177,20 @@
 
                                               <!-- Summoner Performance -->
                                               <div class='col-md-8'>
-                                                $participantStats->kills/$participantStats->deaths/$participantStats->assists <br />
-                                                <span style='font-weight: bold;'>$kda</span> KDA
+                                                <div>
+                                                  $participantStats->kills/$participantStats->deaths/$participantStats->assists <br />
+                                                  <span style='font-weight: bold;'>$kda</span> KDA
+                                                </div>
+
+                                                <div>
+                                                  $items[0]
+                                                  $items[1]
+                                                  $items[2]
+                                                  $items[3]
+                                                  $items[4]
+                                                  $items[5]
+                                                  $items[6]
+                                                </div>
                                               </div>
                                             </div>
                                           </div>";
@@ -196,6 +216,16 @@
                                               <div class='col-md-8'>
                                                 $participantStats->kills/$participantStats->deaths/$participantStats->assists <br />
                                                 <span style='font-weight: bold;'>$kda</span> KDA
+                                              </div>
+
+                                              <div>
+                                                $items[0]
+                                                $items[1]
+                                                $items[2]
+                                                $items[3]
+                                                $items[4]
+                                                $items[5]
+                                                $items[6]
                                               </div>
                                             </div>
                                           </div>";
