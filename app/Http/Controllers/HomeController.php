@@ -37,6 +37,10 @@ class HomeController extends Controller
           RiotAPI::SET_KEY    => env('LEAGUE_API_KEY', ''),
           //  Target region (you can change it during lifetime of the library instance)
           RiotAPI::SET_REGION => Region::LAMERICA_NORTH,
+
+          // Enable Static Data
+        	RiotAPI::SET_STATICDATA_LINKING => true,
+        	RiotAPI::SET_CACHE_CALLS        => true,
         ]);
 
         $summoner_data = $this->getSummoner($api, $current_user->summoner_name);
