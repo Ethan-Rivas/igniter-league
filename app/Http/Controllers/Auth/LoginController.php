@@ -23,9 +23,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request)
     {
-      session()->regenerate();
-
-      return redirect('?matches=true');
+      return redirect('/');
     }
     /**
      * Where to redirect users after login.
