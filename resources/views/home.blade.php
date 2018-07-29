@@ -149,81 +149,90 @@
                                                6 => DataDragonAPI::getItemIcon($participantStats->item6));
 
                                 // Show formatted list of matches
-                                if($match->teams[0]->win == "Win") {
-                                  echo "<div class='win-container'>
-                                          <div class='row row-no-padding'>
-                                            <!-- Champion Image -->
-                                            <div class='col-md-2'>
-                                              <div>
-                                                <img style='width: 100%;' src='$championUrl' alt='$champion_name' />
-                                              </div>
-                                            </div>
+                                foreach($match->participants as $participant) {
+                                  if($participant->participantId == $participantId) {
+                                      foreach($match->teams as $team) {
+                                        if($team->teamId == $participant->teamId) {
+                                          if($team->win == "Win") {
+                                            echo "<div class='win-container'>
+                                                    <div class='row row-no-padding'>
+                                                      <!-- Champion Image -->
+                                                      <div class='col-md-2'>
+                                                        <div>
+                                                          <img style='width: 100%;' src='$championUrl' alt='$champion_name' />
+                                                        </div>
+                                                      </div>
 
-                                            <!-- Game Information -->
-                                            <div class='col-md-2'>
-                                              <div>
-                                                <span style='font-weight: bold; color: #7FC787'>VICTORY</span><br>
-                                                <span class='game-mode'>$match->gameMode</span>
-                                              </div>
-                                            </div>
+                                                      <!-- Game Information -->
+                                                      <div class='col-md-2'>
+                                                        <div>
+                                                          <span style='font-weight: bold; color: #7FC787'>VICTORY</span><br>
+                                                          <span class='game-mode'>$match->gameMode</span>
+                                                        </div>
+                                                      </div>
 
-                                            <!-- Summoner Performance -->
-                                            <div class='col-md-2'>
-                                              <div>
-                                                $participantStats->kills/$participantStats->deaths/$participantStats->assists <br />
-                                                <span style='font-weight: bold;'>$kda</span> KDA
-                                              </div>
-                                            </div>
+                                                      <!-- Summoner Performance -->
+                                                      <div class='col-md-2'>
+                                                        <div>
+                                                          $participantStats->kills/$participantStats->deaths/$participantStats->assists <br />
+                                                          <span style='font-weight: bold;'>$kda</span> KDA
+                                                        </div>
+                                                      </div>
 
-                                            <!-- Summoner Items -->
-                                            <div class='col-md-6'>
-                                              $items[0]
-                                              $items[1]
-                                              $items[2]
-                                              $items[3]
-                                              $items[4]
-                                              $items[5]
-                                              $items[6]
-                                            </div>
-                                          </div>
-                                        </div>";
-                                } else {
-                                  echo "<div class='lose-container'>
-                                          <div class='row row-no-padding'>
-                                            <!-- Champion Image -->
-                                            <div class='col-md-2'>
-                                              <div>
-                                                <img style='width: 100%;' src='$championUrl' alt='$champion_name' />
-                                              </div>
-                                            </div>
+                                                      <!-- Summoner Items -->
+                                                      <div class='col-md-6'>
+                                                        $items[0]
+                                                        $items[1]
+                                                        $items[2]
+                                                        $items[3]
+                                                        $items[4]
+                                                        $items[5]
+                                                        $items[6]
+                                                      </div>
+                                                    </div>
+                                                  </div>";
+                                          } else {
+                                            echo "<div class='lose-container'>
+                                                    <div class='row row-no-padding'>
+                                                      <!-- Champion Image -->
+                                                      <div class='col-md-2'>
+                                                        <div>
+                                                          <img style='width: 100%;' src='$championUrl' alt='$champion_name' />
+                                                        </div>
+                                                      </div>
 
-                                            <!-- Game Information -->
-                                            <div class='col-md-2'>
-                                              <div>
-                                                <span style='font-weight: bold; color: #FF7F7F;'>DEFEAT</span><br>
-                                                <span class='game-mode'>$match->gameMode</span>
-                                              </div>
-                                            </div>
+                                                      <!-- Game Information -->
+                                                      <div class='col-md-2'>
+                                                        <div>
+                                                          <span style='font-weight: bold; color: #FF7F7F;'>DEFEAT</span><br>
+                                                          <span class='game-mode'>$match->gameMode</span>
+                                                        </div>
+                                                      </div>
 
-                                            <!-- Summoner Performance -->
-                                            <div class='col-md-2'>
-                                              $participantStats->kills/$participantStats->deaths/$participantStats->assists <br />
-                                              <span style='font-weight: bold;'>$kda</span> KDA
-                                            </div>
+                                                      <!-- Summoner Performance -->
+                                                      <div class='col-md-2'>
+                                                        $participantStats->kills/$participantStats->deaths/$participantStats->assists <br />
+                                                        <span style='font-weight: bold;'>$kda</span> KDA
+                                                      </div>
 
-                                            <!-- Summoner Items -->
-                                            <div class='col-md-6'>
-                                              $items[0]
-                                              $items[1]
-                                              $items[2]
-                                              $items[3]
-                                              $items[4]
-                                              $items[5]
-                                              $items[6]
-                                            </div>
-                                          </div>
-                                        </div>";
+                                                      <!-- Summoner Items -->
+                                                      <div class='col-md-6'>
+                                                        $items[0]
+                                                        $items[1]
+                                                        $items[2]
+                                                        $items[3]
+                                                        $items[4]
+                                                        $items[5]
+                                                        $items[6]
+                                                      </div>
+                                                    </div>
+                                                  </div>";
+                                          }
+                                        }
+                                      }
+                                  }
                                 }
+
                               }
                             }
                           @endphp
