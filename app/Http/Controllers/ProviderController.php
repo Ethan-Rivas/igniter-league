@@ -2,11 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Provider;
+use App\Provider as Provider;
 use Illuminate\Http\Request;
+
+// Riot API
+use RiotAPI\RiotAPI;
+use RiotAPI\Definitions\Region;
+
+// Carbon to get timestamp
+use Carbon\Carbon;
 
 class ProviderController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +31,11 @@ class ProviderController extends Controller
      */
     public function index()
     {
-        //
+        // Get all Providers from Database.
+        $providers = Provider::all();
+
+        // Load providers view with providers
+        return view('providers')->with('providers', $providers);
     }
 
     /**
@@ -24,7 +45,7 @@ class ProviderController extends Controller
      */
     public function create()
     {
-        //
+        return view('provider_new');
     }
 
     /**
@@ -35,7 +56,12 @@ class ProviderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $provider = new Provider;
+        $provider->provider_id =  1;//$request->provider_id;
+        $provider->provider_url = $request->provider_url;
+        $provider->save();
+
+        return redirect()->route('providers');
     }
 
     /**
@@ -46,7 +72,7 @@ class ProviderController extends Controller
      */
     public function show(Provider $provider)
     {
-        //
+        return Provider::findOrFail($provider->id);
     }
 
     /**
@@ -69,7 +95,12 @@ class ProviderController extends Controller
      */
     public function update(Request $request, Provider $provider)
     {
-        //
+        $provider = new Provider;
+        $provider->provider_id = $request->provider_id;
+        $provider->provider_url = $request->provider_url;
+        $tournament->save();
+
+        return redirect()->route('providers');
     }
 
     /**
@@ -80,6 +111,13 @@ class ProviderController extends Controller
      */
     public function destroy(Provider $provider)
     {
-        //
+        // Date time now to timestamp
+        $current_time = Carbon::now()->toDayDateTimeString(); // Mon, Jun 30, 2018 00:00 PM
+        $current_timestamp = Carbon::now()->timestamp;
+
+        // Insert timestamp for softdelete
+        $provider = new Provider;
+        $provider->deleted_at = $current_timestamp;
+        $provider->save();
     }
 }

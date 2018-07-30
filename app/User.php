@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+// Use Provider Model for relationship
+use App\Provider;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -15,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'summoner_name', 'email', 'password', // 'gender', 'birth_date'
+        'first_name', 'last_name', 'summoner_name', 'email', 'password', 'provider_id', // 'gender', 'birth_date'
     ];
 
     /**
@@ -26,4 +29,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function provider() {
+        return $this->belongsTo('App\Provider');
+    }
 }

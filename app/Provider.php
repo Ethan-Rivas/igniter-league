@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+// Use Provider Model for relationship
+use App\User;
+
 class Provider extends Model
 {
     /**
@@ -23,4 +26,8 @@ class Provider extends Model
     protected $hidden = [
         'provider_id'
     ];
+
+    public function users() {
+        return $this->hasMany('App\User ');
+    }
 }

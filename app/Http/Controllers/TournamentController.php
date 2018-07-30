@@ -17,6 +17,9 @@ use DataDragonAPI\DataDragonAPI;
 // Carbon to get timestamp
 use Carbon\Carbon;
 
+// Use Provider
+use App\Provider as Provider;
+
 class TournamentController extends Controller
 {
     /**
@@ -61,13 +64,22 @@ class TournamentController extends Controller
      */
     public function store(Request $request)
     {
+      // Check if current user has a provider
+      $is_provider = Auth::user()->provider;
+
+      // TODO: Add validation to provider id
+      if($is_provider->provider_id) {
         $tournament = new Tournament;
         $tournament->name = $request->name;
         $tournament->description = $request->description;
-        $tournament->provider_id = $request->provider;
+        $tournament->provider_id = $is_provider->provider_id;
         $tournament->save();
 
-        return redirect()->route('tournaments');
+        return redirect('/tournaments');
+      } else {
+        $error = 'You are not a registered provider, if you think this is an error, please, contact an admin.';
+        return view('tournament_new')->with('error', $error);
+      }
     }
 
     /**
@@ -89,7 +101,7 @@ class TournamentController extends Controller
      */
     public function edit(Tournament $tournament)
     {
-      return view('tournaments_edit')->with('tournaments', $tournaments);
+      return view('tournaments_edit')->with('tournaments', $tournament);
     }
 
     /**
@@ -101,11 +113,24 @@ class TournamentController extends Controller
      */
     public function update(Request $request, Tournament $tournament)
     {
-        $tournament = new Tournament;
-        $tournament->name = $request->name;
-        $tournament->description = $request->description;
-        $tournament->provider_id = $request->provider;
-        $tournament->save();
+        // Check if current user has a provider
+        $is_provider = Auth::user()->provider;
+
+        // TODO: Add validation to provider id
+        if($is_provider->provider_id) {
+          $tournament = new Tournament;
+          $tournament->name = $request->name;
+          $tournament->description = $request->description;
+          $tournament->provider_id = $is_provider->provider_id;
+          $tournament->save();
+
+          return view('tournaments_edit')->with('tournament_edit', $tournament);
+        } else {
+          $error = "You are not a registered provider, if you think this is an error, please, contanct an admin.";
+
+          return view('tournaments_edit')->with('tournament_edit', $tournament)
+                                         ->with('error', $error);
+        }
     }
 
     /**

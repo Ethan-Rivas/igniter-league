@@ -10,6 +10,10 @@
             <div class="tournaments-admin">
               <h3>Create Tournament</h3>
 
+              @if($error)
+                <div class='error'>{{ $error }}</div>
+              @endif
+
               <form method="POST" action="{{ route('tournaments.new') }}" aria-label="{{ __('Create Tournament') }}">
                   @csrf
 

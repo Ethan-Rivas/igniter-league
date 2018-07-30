@@ -13,8 +13,17 @@
 
 Route::get('/', 'HomeController@index')->name('home');
 
+// Tournaments
 Route::get('/tournaments', 'TournamentController@index')->name('tournaments');
 Route::get('/tournaments/new', 'TournamentController@create')->name('tournaments.new');
 Route::post('/tournaments/new', 'TournamentController@store');
+
+// Providers
+Route::get('/providers/new', 'ProviderController@create')->name('providers.new');
+Route::post('/providers/new', 'ProviderController@store');
+
+// Users
+Route::get('/users/{id}/edit', 'UserController@edit')->name('users.edit');
+Route::put('/users/{id}/edit', 'UserController@update');
 
 Auth::routes();

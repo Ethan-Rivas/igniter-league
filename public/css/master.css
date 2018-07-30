@@ -82,4 +82,18 @@ div.tabs-area ul>li {
 .tournaments > div {
   border: 1px solid rgba(42, 42, 42, 0.5);
   padding: 10px;
+  margin-bottom: 10px;
+}
+
+/* Provider Styles */
+.message-field {
+  margin-top: 10px;
+}
+
+/* Error message */
+.error {
+  border: 1px solid rgba(250, 0, 0, 0.44);
+  background-color: rgba(250, 0, 0, 0.14);
+  border-radius: 5px;
+  padding: 15px;
 }
