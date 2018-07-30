@@ -13,4 +13,8 @@
 
 Route::get('/', 'HomeController@index')->name('home');
 
+Route::get('/tournaments', 'TournamentController@index')->name('tournaments');
+Route::get('/tournaments/new', 'TournamentController@create')->name('tournaments.new');
+Route::post('/tournaments/new', 'TournamentController@store');
+
 Auth::routes();
