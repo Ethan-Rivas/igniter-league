@@ -44,11 +44,13 @@ class HomeController extends Controller
         ]);
 
         $summoner_data = $this->getSummoner($api, $current_user->summoner_name);
-        $session_matches = session()->get('matches');
+        $matches = $this->getMatches($api, $summoner_data->summoner_id);
+        //$session_matches = session()->get('matches');
 
         return view('home')->with('data', $summoner_data)
                            ->with('api', $api)
-                           ->with('session_matches', $session_matches);
+                           ->with('matches', $matches);
+                           //->with('session_matches', $session_matches);
     }
 
     /**
