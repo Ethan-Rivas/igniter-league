@@ -23,7 +23,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request)
     {
-      return redirect('/');
+      return redirect('/tournaments');
     }
     /**
      * Where to redirect users after login.
