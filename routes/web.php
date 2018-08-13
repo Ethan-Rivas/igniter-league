@@ -14,7 +14,7 @@
 Route::get('/', 'HomeController@index')->name('home');
 
 // Tournaments
-Route::get('/tournaments', 'TournamentController@index')->name('tournaments');
+Route::get('/tournaments', 'TournamentController@index')->name('tournaments')->middleware("is.admin");
 Route::get('/tournaments/new', 'TournamentController@create')->name('tournaments.new');
 Route::post('/tournaments/new', 'TournamentController@store');
 
@@ -26,7 +26,7 @@ Route::post('/providers/new', 'ProviderController@store');
 Route::get('/users/{id}/edit', 'UserController@edit')->name('users.edit');
 Route::put('/users/{id}/edit', 'UserController@update');
 
- Admin
+// Admin
 //Route::prefix('admin')->group(['middleware' => 'is.admin'], function () {
 //    Route::get()
 //});
