@@ -18,12 +18,11 @@ class LoginController extends Controller
     | to conveniently provide its functionality to your applications.
     |
     */
-
     use AuthenticatesUsers;
 
     protected function authenticated(Request $request)
     {
-      return redirect('/tournaments');
+        return redirect('/tournaments');
     }
     /**
      * Where to redirect users after login.
